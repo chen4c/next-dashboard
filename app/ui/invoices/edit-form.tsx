@@ -10,7 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { CustomerField, InvoiceForm } from '@/app/lib/definitions';
 import { Button } from '@/app/ui/button';
-import { updateInvoice, State } from '@/app/lib/action';
+import { updateInvoice, State } from '@/app/lib/actions';
 
 export default function EditInvoiceForm({
   invoice,
