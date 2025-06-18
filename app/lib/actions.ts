@@ -27,8 +27,10 @@ export async function authenticate(
   }
 }
 
+// Initialize Postgres client
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: false });
 
+// Define Zod schema for form validation
 const FormSchema = z.object({
   id: z.string(),
   customerId: z.string({
@@ -46,6 +48,7 @@ const FormSchema = z.object({
 // Use Zod to create the expected types
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
+// Define the shape of the form state
 export type State = {
   errors?: {
     customerId?: string[];
@@ -142,5 +145,11 @@ export async function deleteInvoice(id: string) {
     await sql`DELETE FROM invoices WHERE id = ${id}`;
   } catch (error) {
     console.error('Database Delete Error:', error);
+    return {
+      message: 'Database Error: Failed to Delete Invoice.',
+    };
   }
+
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
 }
