@@ -1,8 +1,14 @@
 # Use the official Node.js runtime as the base image
 FROM node:18-alpine AS base
 
+# Use Chinese mirrors for apk packages
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
 # Install pnpm globally in the base image
-RUN npm install -g pnpm
+RUN npm install -g pnpm --registry=https://registry.npmmirror.com
+
+# Configure pnpm to use Chinese registry by default
+RUN pnpm config set registry https://registry.npmmirror.com
 
 # Install dependencies only when needed
 FROM base AS deps
