@@ -1,0 +1,4 @@
+services:
+  app:
+    environment:
+      - NEXTAUTH_URL=http://1.92.73.76:3000
